@@ -1,0 +1,28 @@
+<h2>Login</h2>
+<h4>Use a local account to log in.</h4>
+<hr />
+<div class="col-md-4">
+  <section>
+    <div class="form-group">
+      <label>User</label>
+      <input #email class="form-control" id="User" />
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input #password class="form-control" id="Password" type="password" />
+    </div>
+    <app-messages></app-messages>
+    <div class="form-group">
+      <div class="checkbox">
+        <label>
+          <input data-val="true" id="RememberMe" name="RememberMe" value="true" type="checkbox" /> Remember me?
+        </label>
+      </div>
+    </div>
+    <input name="RememberMe" value="false" type="hidden" />
+    <button (click)="loginUser(email.value, password.value);" type="submit" class="btn btn-default">Log in</button>
+  </section>
+</div>
+<a class="nav-link" routerLink="/ForgetPassword">Forgot your Password?</a>
+<a class="nav-link" routerLink="/Register">Register as a new user?</a>
+<hr />

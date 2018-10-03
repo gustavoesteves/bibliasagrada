@@ -1,0 +1,70 @@
+body {
+    font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+    font-size: 2.25rem;
+  }
+  
+  .lock-svg-title {
+    height: 40px;
+  }
+  
+  /* Small devices (landscape phones, 576px and up) */
+  @media (min-width: 576px) {}
+  
+  /* Medium devices (tablets, 768px and up) */
+  @media (max-width: 768px) {
+    .navbar-brand {
+      text-align: center;
+    }
+  
+    .home-flex {
+      display: flex;
+      flex-direction: column;
+    }
+  
+    .unlock-flex {
+      flex-grow: 1;
+    }
+  
+    .text-flex {
+      flex-grow: 1;
+    }
+  
+    .lock-svg {
+      height: 200px;
+      display: block;
+      margin: auto;
+      padding-bottom: 50px;
+    }
+  
+  }
+  
+  /* Medium devices (tablets, 768px and up) */
+  @media (min-width: 769px) {
+    .home-flex {
+      display: flex;
+      flex-direction: row-reverse;
+    }
+  
+    .unlock-flex {
+      flex-grow: 1;
+      margin-left: 80px;
+    }
+  
+    .text-flex {
+      margin-top: 80px;
+      flex-grow: 1;
+    }
+  
+    .lock-svg {
+      display: block;
+      margin: auto;
+      height: 400px;
+    }
+  }
+  
+  /* Large devices (desktops, 992px and up) */
+  @media (min-width: 992px) {}
+  
+  /* Extra large devices (large desktops, 1200px and up) */
+  @media (min-width: 1200px) {}
+  

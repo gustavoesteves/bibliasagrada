@@ -1,0 +1,24 @@
+<h2>Register</h2>
+<h4>Create a new account.</h4>
+<hr />
+<div class="col-md-4">
+  <div class="form-group">
+    <label>User</label>
+    <input #username class="form-control" id="User" />
+  </div>
+  <div class="form-group">
+    <label>Email</label>
+    <input #email class="form-control" id="Email" type="email" />
+  </div>
+  <div class="form-group">
+    <label>Password</label>
+    <input #password class="form-control" id="Password" type="password" />
+  </div>
+  <div class="form-group">
+    <label>Confirm password</label>
+    <input #confirmPassword class="form-control" id="ConfirmPassword" type="password" />
+  </div>
+  <app-messages></app-messages>
+  <button (click)="registerUser(username.value, email.value, password.value, confirmPassword.value);" type="submit" class="btn btn-default">Register</button>
+</div>
+<hr />
