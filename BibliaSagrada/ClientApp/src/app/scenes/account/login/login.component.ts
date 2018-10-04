@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
         } else {
           this.accountService.setUsername(username);
           this.accountService.setLogged(true);
-          this.router.navigate(['']);
+          this.router.navigate(['/Bible']);
         }
       });
   }

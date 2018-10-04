@@ -16,6 +16,7 @@ import { MessagesComponent } from './message/messages/messages.component';
 import { PagenotfoundComponent } from './scenes/layout/pagenotfound/pagenotfound.component';
 import { ManageComponent } from './scenes/account/manage/manage.component';
 import { ChangepasswordComponent } from './scenes/account/changepassword/changepassword.component';
+import { HomebibleComponent } from './scenes/bible/homebible/homebible.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ChangepasswordComponent } from './scenes/account/changepassword/changep
     MessagesComponent,
     PagenotfoundComponent,
     ManageComponent,
-    ChangepasswordComponent
+    ChangepasswordComponent,
+    HomebibleComponent
   ],
   imports: [
     NgbModule,

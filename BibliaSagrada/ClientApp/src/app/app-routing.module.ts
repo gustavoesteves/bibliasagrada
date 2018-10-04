@@ -9,6 +9,7 @@ import { PagenotfoundComponent } from './scenes/layout/pagenotfound/pagenotfound
 import { AuthGuard } from './scenes/account/auth.guard';
 import { ChangepasswordComponent } from './scenes/account/changepassword/changepassword.component';
 import { ManageComponent } from './scenes/account/manage/manage.component';
+import { HomebibleComponent } from './scenes/bible/homebible/homebible.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'Login', component: LoginComponent },
   { path: 'ChangePassword', component: ChangepasswordComponent },
   { path: 'Manage', component: ManageComponent },
+  { path: 'Bible', component: HomebibleComponent },
   { path: '**', component: PagenotfoundComponent }
 ];
 

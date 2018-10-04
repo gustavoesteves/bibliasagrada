@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using BibliaSagrada.Models;
 using BibliaSagrada.Models.AccountViewModels;
+using BibliaSagrada.Models.BibliaModels;
 using BibliaSagrada.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -17,17 +18,20 @@ namespace BibliaSagrada.Controllers
     [Route("api/[controller]/[action]")]
     public class AccountController : Controller
     {
+        private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
 
         public AccountController(
+            ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             ILogger<AccountController> logger)
         {
+            _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
@@ -67,14 +71,13 @@ namespace BibliaSagrada.Controllers
                 {
                     return RedirectToAction(nameof(LoginWith2fa), new { returnUrl, model.RememberMe });
                 }
+                */
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
                     return RedirectToAction(nameof(Lockout));
                 }
-                else
-                */
-                if (!result.IsLockedOut)
+                else if (!result.IsLockedOut)
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     return BadRequest(ModelState);
@@ -228,6 +231,18 @@ namespace BibliaSagrada.Controllers
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation("User created a new account with password.");
+
+                    var _bibleUser = new BibleUserDetail()
+                    {
+                        Book = 1,
+                        Charpter = 1,
+                        Vercicle = 1,
+                        NumbersVercicle = 10,
+                        ApplicationUserId = user.Id
+                    };
+                    _context.BibleUsers.Add(_bibleUser);
+                    await _context.SaveChangesAsync();
+
                     return Ok();
                 }
                 AddErrors(result);
