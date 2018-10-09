@@ -8,5 +8,7 @@ namespace BibliaSagrada.Models.ManageViewModels
     {
         public IList<UserLoginInfo> CurrentLogins { get; set; }
         public IList<AuthenticationScheme> OtherLogins { get; set; }
+        public int NumbersVercicle { get; set; }
+        public bool InlineVercicle { get; set; }
     }
 }

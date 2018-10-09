@@ -1,11 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable, InteropObservable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
 
 import { MessageService } from '../../message/message.service';
 import { IUserLogin, IChangePassword, IUserRegister } from './user';
-import { HttpOptions, RegisterUrl, LoginUrl, ValuesUrl, TestUrl, LogoutUrl, ChangePassUrl, ValidateCookieUrl } from '../../global/urls';
+import {
+  HttpOptions,
+  RegisterUrl,
+  LoginUrl,
+  LogoutUrl,
+  ChangePassUrl,
+  ValidateCookieUrl,
+  ManageLoginsUrl,
+  ChangeNumberVerciclesUrl,
+  PostChangeInLineUrl
+} from '../../global/urls';
 import { HandleError, IError } from '../../global/handleError';
 import { BodyEncode } from '../../global/functions';
 
@@ -35,12 +45,6 @@ export class AuthService {
 
   //////// methods //////////
 
-  /** GET: get Test string after login */
-  getTest(): Observable<HttpResponse<Object>> {
-    return this.http.get<HttpResponse<Object>>(TestUrl, HttpOptions)
-      .pipe(catchError(HandleError<HttpResponse<Object>>('Login')));
-  }
-
   /** POST: get Token from server */
   getToken(user: IUserLogin): Observable<HttpResponse<Object>> {
     return this.http.post<HttpResponse<Object>>(LoginUrl, BodyEncode<IUserLogin>(user), HttpOptions)
@@ -56,7 +60,7 @@ export class AuthService {
   /** POST: Logout */
   postLogOut(): Observable<HttpResponse<Object>> {
     return this.http.post<HttpResponse<Object>>(LogoutUrl, HttpOptions)
-      .pipe(catchError(HandleError<HttpResponse<Object>>('Login')));
+      .pipe(catchError(HandleError<HttpResponse<Object>>('Logout')));
   }
 
   /** GET: ValidateCookie */
@@ -70,13 +74,23 @@ export class AuthService {
     return this.http.post<HttpResponse<Object>>(ChangePassUrl, BodyEncode<IChangePassword>(user), HttpOptions)
       .pipe(catchError(HandleError<HttpResponse<Object>>('ChangePassword')));
   }
-  //////// authentication //////////
 
-  loggedIn(): boolean {
-    return !!localStorage.getItem('token');
+  /** GET: ManageLogins */
+  manageLogins(): Observable<HttpResponse<Object>> {
+    return this.http.get<HttpResponse<Object>>(ManageLoginsUrl, HttpOptions)
+      .pipe(catchError(HandleError<HttpResponse<Object>>('ManageLogins')));
   }
 
-  getValues(): Observable<any> {
-    return this.http.get<any>(ValuesUrl, HttpOptions);
+  /** POST: PostChangeNumberVercicles */
+  PostChangeNumberVercicles(value: number): Observable<HttpResponse<Object>> {
+    return this.http.post<HttpResponse<Object>>(ChangeNumberVerciclesUrl + "/" + value, HttpOptions)
+      .pipe(catchError(HandleError<HttpResponse<Object>>('PostChangeNumberVercicles')));
   }
+  
+  /** POST: PostChangeInLine */
+  PostChangeInLine(): Observable<HttpResponse<Object>> {
+    return this.http.post<HttpResponse<Object>>(PostChangeInLineUrl, HttpOptions)
+      .pipe(catchError(HandleError<HttpResponse<Object>>('PostChangeInLine')));
+  }
+
 }

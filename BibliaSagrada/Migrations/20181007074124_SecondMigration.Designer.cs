@@ -4,14 +4,16 @@ using BibliaSagrada.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BibliaSagrada.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181007074124_SecondMigration")]
+    partial class SecondMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -127,28 +129,6 @@ namespace BibliaSagrada.Migrations
                     b.HasIndex("BookId");
 
                     b.ToTable("Charpters");
-                });
-
-            modelBuilder.Entity("BibliaSagrada.Models.BibliaModels.UserSavedVercicle", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired();
-
-                    b.Property<string>("Comment");
-
-                    b.Property<int>("VercicleId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("VercicleId");
-
-                    b.ToTable("UserSavedVercicles");
                 });
 
             modelBuilder.Entity("BibliaSagrada.Models.BibliaModels.Vercicle", b =>
@@ -294,19 +274,6 @@ namespace BibliaSagrada.Migrations
                     b.HasOne("BibliaSagrada.Models.BibliaModels.Book", "Book")
                         .WithMany("IdCharpters")
                         .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("BibliaSagrada.Models.BibliaModels.UserSavedVercicle", b =>
-                {
-                    b.HasOne("BibliaSagrada.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("BibliaSagrada.Models.BibliaModels.Vercicle", "Vercicle")
-                        .WithMany()
-                        .HasForeignKey("VercicleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

@@ -7,6 +7,7 @@ using BibliaSagrada.Models.ManageViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BibliaSagrada.Controllers
 {
@@ -14,13 +15,16 @@ namespace BibliaSagrada.Controllers
     [Route("api/[controller]/[action]")]
     public class ManageController : Controller
     {
+        private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
         public ManageController(
+            ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager)
         {
+            _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -28,8 +32,16 @@ namespace BibliaSagrada.Controllers
         [HttpGet]
         public async Task<IActionResult> ValidateCookie()
         {
-            var userEmail = (await _userManager.GetUserAsync(HttpContext.User))?.Email;
-            return Ok(userEmail);
+            var _user = await _userManager.GetUserAsync(HttpContext.User);
+            var bibleUserDetail = await _context.BibleUsers.FirstOrDefaultAsync(_ => _.ApplicationUserId == _user.Id);
+
+            var result = new
+            {
+                email = _user.Email,
+                checkInline = bibleUserDetail.Inline,
+                rangeValue = bibleUserDetail.NumbersVercicle
+            };
+            return Ok(result);
         }
 
         [HttpPost]
@@ -56,18 +68,16 @@ namespace BibliaSagrada.Controllers
         public async Task<IActionResult> ManageLogins()
         {
             var userId = await _userManager.GetUserAsync(HttpContext.User);
-            var user = await _userManager.FindByIdAsync(userId.ToString());
-            if (user == null)
-            {
-                return View("Error");
-            }
+            var _numberVercicles = _context.BibleUsers.Where(_ => _.ApplicationUserId == userId.Id);
             var userLogins = await _userManager.GetLoginsAsync(userId);
             var schemes = await _signInManager.GetExternalAuthenticationSchemesAsync();
             var otherLogins = schemes.Where(auth => userLogins.All(ul => auth.Name != ul.LoginProvider)).ToList();
-            return View(new ManageLoginsViewModel
+            return Ok(new ManageLoginsViewModel
             {
                 CurrentLogins = userLogins,
-                OtherLogins = otherLogins
+                OtherLogins = otherLogins,
+                NumbersVercicle = _numberVercicles.FirstOrDefault().NumbersVercicle,
+                InlineVercicle = _numberVercicles.FirstOrDefault().Inline
             });
         }
 

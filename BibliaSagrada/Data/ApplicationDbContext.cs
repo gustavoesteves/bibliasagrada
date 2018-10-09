@@ -10,6 +10,7 @@ namespace BibliaSagrada.Models
         public DbSet<Book> Books { get; set; }
         public DbSet<Charpter> Charpters { get; set; }
         public DbSet<Vercicle> Vercicles { get; set; }
+        public DbSet<UserSavedVercicle> UserSavedVercicles { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {

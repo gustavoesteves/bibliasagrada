@@ -20,8 +20,11 @@ namespace BibliaSagrada.Models.BibliaModels
         public int Vercicle { get; set; }
 
         [Required]
-        [RegularExpression(@"\d[1-9]|10", ErrorMessage = "Podemos exibir de 1 a 10 vercículos.")]
+        [RegularExpression(@"\d[1-9]|20", ErrorMessage = "Podemos exibir de 1 a 10 vercículos.")]
         public int NumbersVercicle { get; set; }
+
+        [Required]
+        public bool Inline { get; set; }
 
         [Required]
         public string ApplicationUserId { get; set; }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../auth.service';
-import { IUserLogin, IToken, IUserRegister } from '../user';
+import { IUserLogin, IUserRegister } from '../user';
 import { IError } from '../../../global/handleError';
 import { MessageService } from '../../../message/message.service';
 

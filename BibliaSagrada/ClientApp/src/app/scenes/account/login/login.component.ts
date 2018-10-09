@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../auth.service';
-import { IUserLogin, IToken } from '../user';
+import { IUserLogin } from '../user';
 import { IError } from '../../../global/handleError';
 import { MessageService } from '../../../message/message.service';
 
@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
         } else {
           this.accountService.setUsername(username);
           this.accountService.setLogged(true);
-          this.router.navigate(['/Bible']);
+          this.router.navigate(['']);
         }
       });
   }

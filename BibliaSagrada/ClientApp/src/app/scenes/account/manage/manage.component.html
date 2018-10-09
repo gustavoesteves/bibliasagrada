@@ -6,6 +6,23 @@
     <p class="text-success"></p>
     <div>
       <dl class="dl-horizontal">
+        <dt>Number of Vercicles: {{rangeValue}}</dt>
+        <dd>
+          <input #range
+                 [(value)]="rangeValue"
+                 (change)="onChange(range.value)"
+                 type="range"
+                 class="custom-range"
+                 min="1"
+                 max="20">
+        </dd>
+        <dt>Inline Vercicle text:</dt>
+        <dd>
+          <input [(checked)]="checkboxInline"
+                 (change)="checkboxChange()"
+                 type="checkbox"
+                 class=""/>
+        </dd>
         <dt>Password:</dt>
         <dd>
           [
@@ -19,9 +36,9 @@
         <dt>Two-Factor Authentication:</dt>
         <dd>
           <p>
-            There are no two-factor authentication providers configured. See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">
-              this
-              article
+            There are no two-factor authentication providers configured. See
+            <a href="https://go.microsoft.com/fwlink/?LinkId=403804">
+              this article
             </a>
             for details on setting up this ASP.NET application to support two-factor authentication.
           </p>
