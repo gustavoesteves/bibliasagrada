@@ -52,8 +52,9 @@ export class NavmenuComponent implements OnInit {
   }
 
   checkboxChange() {
-    this.accountService.PostChangeInLine().subscribe();
-    this.bible.setCheckInline(!this.checkboxInline);
+    this.accountService.PostChangeInLine().subscribe(_ => {
+      this.bible.setCheckInline(!this.checkboxInline);
+    });
   }
 
   onChange(value: number) {
