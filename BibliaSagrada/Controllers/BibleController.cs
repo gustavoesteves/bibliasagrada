@@ -24,12 +24,15 @@ namespace BibliaSagrada.Controllers
             _userManager = userManager;
         }
 
-        // GET: api/Bible/GetUserVercicles
-        [HttpGet]
-        public async Task<IActionResult> GetUserVercicles()
+        public string GetUserId()
         {
-            var id = (await _userManager.GetUserAsync(HttpContext.User))?.Id;
-            var bibleUserDetail = await _context.BibleUsers.FirstOrDefaultAsync(_ => _.ApplicationUserId == id);
+            return _userManager.GetUserId(User);
+        }
+
+        public Object ListUserVercicles()
+        {
+            var bibleUserDetail = _context.BibleUsers.FirstOrDefault(_ => _.ApplicationUserId == GetUserId());
+
             var result =
                 from _vercicles in _context.Vercicles
                 join _charpters in _context.Charpters on _vercicles.CharpterId equals _charpters.Id
@@ -47,22 +50,56 @@ namespace BibliaSagrada.Controllers
                     VercicleNumber = _vercicles.Number,
                     VercicleText = _vercicles.Text
                 };
-            return Ok(result);
+
+            return result;
+        }
+
+        // GET: api/Bible/GetUserVercicles
+        [HttpGet]
+        public IActionResult GetUserVercicles()
+        {
+            return Ok(ListUserVercicles());
+        }
+
+        // POST: api/Bible/Previous
+        [HttpGet("{PreviousNext}")]
+        public async Task<IActionResult> GetPreviousNext([FromRoute] bool PreviousNext)
+        {
+            var bibleUserDetail = await _context.BibleUsers.FirstOrDefaultAsync(_ => _.ApplicationUserId == GetUserId());
+            bibleUserDetail.Vercicle = PreviousNext ? bibleUserDetail.Vercicle + bibleUserDetail.NumbersVercicle
+                : bibleUserDetail.Vercicle - bibleUserDetail.NumbersVercicle;
+            _context.Entry(bibleUserDetail).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!BibleUserDetailExists(bibleUserDetail.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return Ok(ListUserVercicles());
         }
 
         // GET: api/Bible/GetPickOne
         [HttpGet]
         public async Task<IActionResult> GetPickOne()
         {
-            var id = (await _userManager.GetUserAsync(HttpContext.User))?.Id;
-            var bibleUserDetail = await _context.BibleUsers.FirstOrDefaultAsync(_ => _.ApplicationUserId == id);
+            var bibleUserDetail = await _context.BibleUsers.FirstOrDefaultAsync(_ => _.ApplicationUserId == GetUserId());
 
             Random rnd = new Random();
-            var _id = rnd.Next(1, 35437);
+            var _idResult = rnd.Next(1, 35437);
             var result = from _vercicles in _context.Vercicles
                          join _charpters in _context.Charpters on _vercicles.CharpterId equals _charpters.Id
                          join _books in _context.Books on _charpters.BookId equals _books.Id
-                         where _vercicles.Id == _id
+                         where _vercicles.Id == _idResult
                          select new
                          {
                              BookId = _books.Id,
@@ -85,8 +122,7 @@ namespace BibliaSagrada.Controllers
                 return BadRequest(ModelState);
             }
 
-            var id = (await _userManager.GetUserAsync(HttpContext.User))?.Id;
-            var bibleUserDetail = await _context.BibleUsers.FindAsync(id);
+            var bibleUserDetail = await _context.BibleUsers.FindAsync(GetUserId());
 
             if (bibleUserDetail == null)
             {
@@ -100,8 +136,7 @@ namespace BibliaSagrada.Controllers
         [HttpPost("{NumberVercicles}")]
         public async Task<IActionResult> PostChangeNumberVercicles([FromRoute] int NumberVercicles)
         {
-            var id = (await _userManager.GetUserAsync(HttpContext.User))?.Id;
-            var bibleUserDetail = await _context.BibleUsers.FirstOrDefaultAsync(_ => _.ApplicationUserId == id);
+            var bibleUserDetail = await _context.BibleUsers.FirstOrDefaultAsync(_ => _.ApplicationUserId == GetUserId());
 
             bibleUserDetail.NumbersVercicle = NumberVercicles;
             _context.Entry(bibleUserDetail).State = EntityState.Modified;
@@ -129,10 +164,9 @@ namespace BibliaSagrada.Controllers
         [HttpPost]
         public async Task<IActionResult> PostChangeInLine()
         {
-            var id = (await _userManager.GetUserAsync(HttpContext.User))?.Id;
-            var bibleUserDetail = await _context.BibleUsers.FirstOrDefaultAsync(_ => _.ApplicationUserId == id);
+            var bibleUserDetail = await _context.BibleUsers.FirstOrDefaultAsync(_ => _.ApplicationUserId == GetUserId());
 
-            bibleUserDetail.Inline = ! bibleUserDetail.Inline;
+            bibleUserDetail.Inline = !bibleUserDetail.Inline;
             _context.Entry(bibleUserDetail).State = EntityState.Modified;
 
             try
@@ -153,7 +187,7 @@ namespace BibliaSagrada.Controllers
             return NoContent();
         }
 
-            private bool BibleUserDetailExists(int id)
+        private bool BibleUserDetailExists(int id)
         {
             return _context.BibleUsers.Any(e => e.Id == id);
         }

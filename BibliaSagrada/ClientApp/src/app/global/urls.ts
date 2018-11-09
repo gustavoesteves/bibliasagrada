@@ -32,3 +32,4 @@ export const ChangeNumberVerciclesUrl = deployUrl + bibleUserApi + 'PostChangeNu
 export const GetUserVerciclesUrl = deployUrl + bibleUserApi + 'GetUserVercicles';
 export const GetPickOneUrl = deployUrl + bibleUserApi + 'GetPickOne';
 export const PostChangeInLineUrl = deployUrl + bibleUserApi + 'PostChangeInLine';
+export const PreviousNextUrl = deployUrl + bibleUserApi + 'GetPreviousNext';

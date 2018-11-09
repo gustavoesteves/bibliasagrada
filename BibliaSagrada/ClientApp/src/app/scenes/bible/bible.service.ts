@@ -6,7 +6,7 @@ import {
   HttpOptions,
   BibleUserUrl,
   GetUserVerciclesUrl,
-  GetPickOneUrl
+  GetPickOneUrl,  PreviousNextUrl
 } from '../../global/urls';
 import { catchError } from 'rxjs/operators';
 import { HandleError } from '../../global/handleError';
@@ -29,19 +29,25 @@ export class BibleService {
   /** GET: UserDetail */
   getUserDetail(): Observable<HttpResponse<Object>> {
     return this.http.get<HttpResponse<Object>>(BibleUserUrl, HttpOptions)
-      .pipe(catchError(HandleError<HttpResponse<Object>>('BibleUserDetails')));
+      .pipe(catchError(HandleError<HttpResponse<Object>>('getUserDetail')));
   }
 
   /** GET: GetUserVercicles*/
   getUserVercicles(): Observable<HttpResponse<Object>> {
     return this.http.get<HttpResponse<Object>>(GetUserVerciclesUrl, HttpOptions)
-      .pipe(catchError(HandleError<HttpResponse<Object>>('GetUserVercicles')));
+      .pipe(catchError(HandleError<HttpResponse<Object>>('getUserVercicles')));
   }
 
   /** GET: GetPickOne*/
   getPickOne(): Observable<HttpResponse<Object>> {
     return this.http.get<HttpResponse<Object>>(GetPickOneUrl, HttpOptions)
-      .pipe(catchError(HandleError<HttpResponse<Object>>('GetUserVercicles')));
+      .pipe(catchError(HandleError<HttpResponse<Object>>('getPickOne')));
+  }
+
+  /** GET: GetPreviousNext*/
+  getPreviousNext(value: boolean): Observable<HttpResponse<Object>> {
+    return this.http.get<HttpResponse<Object>>(PreviousNextUrl + '/' + value, HttpOptions)
+      .pipe(catchError(HandleError<HttpResponse<Object>>('getPreviousNext')));
   }
   
   setCheckInline(check: boolean) {

@@ -11,6 +11,14 @@ span {
   height: 40px;
 }
 
+.carousel-control-prev {
+  cursor: pointer;
+}
+
+.carousel-control-next {
+  cursor: pointer;
+}
+
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {
 }

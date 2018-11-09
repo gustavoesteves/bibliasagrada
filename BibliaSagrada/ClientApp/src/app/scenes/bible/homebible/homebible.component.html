@@ -1,12 +1,14 @@
-<h2>{{book}}</h2>
-<h4>Charpter {{charpter}}</h4>
-<hr />
-<span *ngIf="inline">
-  <span *ngFor="let v of vercicles"><b>{{v.vercicleNumber}}</b> {{v.vercicleText}}</span>
-</span>
-<ul *ngIf="!inline" class="list-unstyled">
-  <li *ngFor="let v of vercicles">
-    <span><b>{{v.vercicleNumber}}</b> {{v.vercicleText}}</span>
-  </li>
-</ul>
+<article>
+  <h2>{{book}}</h2>
+  <h4>Charpter {{charpter}}</h4>
+  <hr />
+  <span *ngIf="inline">
+    <span *ngFor="let v of vercicles"><b>{{v.vercicleNumber}}</b> {{v.vercicleText}}</span>
+  </span>
+  <ul *ngIf="!inline" class="list-unstyled">
+    <li *ngFor="let v of vercicles">
+      <span><b>{{v.vercicleNumber}}</b> {{v.vercicleText}}</span>
+    </li>
+  </ul>
+</article>
 <hr />
